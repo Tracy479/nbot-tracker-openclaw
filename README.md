@@ -1,149 +1,74 @@
-# NBot Tracker Skill Package
+# nbot tracker OpenClaw
 
-A packaged OpenClaw skill for fetching AI Industry Pulse updates from `nbot.ai` trackers and delivering them to messaging platforms.
+这是我为 OpenClaw 整理并打包的一个 skill，用来把指定 `nbot tracker` 的内容推送到我的 iMessage。这个流程已经实际跑通。
 
-## 这个项目是什么 / What This Package Is
+## 项目简介
 
-这个仓库保存的是一个打包后的 `.skill` 产物，名称为 `nbot-tracker.skill`。
-根据包内文档，它的目标是从 `nbot.ai` 的 tracker 或 curator 页面抓取最近 24 小时内的更新内容，并通过 OpenClaw 的消息通道发送到 iMessage、Telegram、Discord、Slack 等平台。
+这个项目的起点很直接：我希望 OpenClaw 能够持续读取我提供的 `nbot tracker` 内容，并把更新结果推送到我自己的 iMessage 上。
 
-This repository stores a packaged `.skill` artifact called `nbot-tracker.skill`.
-Based on the files inside the package, its purpose is to fetch recent updates from `nbot.ai` tracker or curator pages and deliver them through OpenClaw-compatible messaging channels such as iMessage, Telegram, Discord, and Slack.
+我先把这个需求描述清楚，并把整条流程跑通；在流程验证完成之后，再把它整理成一个可以直接分享给别人的 skill 包。仓库中的 `nbot-tracker.skill`，就是这个项目最终的交付物。
 
-## 它解决什么问题 / Problem It Solves
+## 这个 skill 做什么
 
-这个技能包面向“想定时接收 AI 行业动态摘要”的场景，把三件事串在一起：
+它的核心流程可以概括为四步：
 
-- 接收一个 `nbot.ai` tracker URL
-- 规范化抓取与消息格式
-- 把内容按定时任务发送到目标平台
+1. 接收我提供的 `nbot tracker` 链接
+2. 读取 tracker 中的更新内容
+3. 按预设格式整理输出
+4. 通过 OpenClaw 推送到 iMessage
 
-This skill package is designed for users who want scheduled AI news digests.
-It connects three steps into one workflow:
+## 当前已经跑通的场景
 
-- accept an `nbot.ai` tracker URL
-- standardize the extraction and message format
-- send updates to a target platform on a schedule
+- 输入来源：`nbot tracker`
+- 调度与执行：OpenClaw
+- 消息目标：iMessage
+- 当前状态：从 tracker 到 iMessage 的完整推送流程已经验证通过
 
-## 适用对象 / Who It Is For
-
-- 使用 OpenClaw 自动化工作流的人
-- 想把 `nbot.ai` tracker 更新推送到消息平台的人
-- 希望把摘要格式固定下来的个人用户或小团队
-
-- OpenClaw users who automate recurring workflows
-- Users who want `nbot.ai` tracker updates delivered to messaging platforms
-- Individuals or small teams who want a consistent digest format
-
-## 当前仓库为什么只有 `.skill` / Why The Repo Stores A Packaged Artifact
-
-这个仓库当前以打包产物为主，而不是以展开后的源码树为主。
-这样做更像“可分发的技能包”而不是“源码项目”，对实际安装和迁移更直接，但对招聘方或协作者阅读不够友好。
-所以这次补充了 README 和说明文档，专门把包里的能力、结构和限制讲清楚。
-
-This repository currently prioritizes the packaged artifact instead of an unpacked source tree.
-That makes it easier to distribute as a portable skill package, but harder for reviewers to understand at a glance.
-The added README and documentation make the package easier to review without changing the artifact-first storage approach.
-
-## 已知包内结构 / Observed Package Structure
-
-从 `nbot-tracker.skill` 这个 zip 包中可以直接观察到以下文件：
-
-- `SKILL.md`
-- `scripts/setup-tracker.sh`
-- `references/nbot-format.md`
-- `references/platform-setup.md`
-
-The following files are directly visible inside `nbot-tracker.skill`:
-
-- `SKILL.md`
-- `scripts/setup-tracker.sh`
-- `references/nbot-format.md`
-- `references/platform-setup.md`
-
-## 包内职责概览 / Package Responsibilities
-
-- `SKILL.md`：定义技能用途、输入要求、消息格式、平台支持和工作流
-- `scripts/setup-tracker.sh`：提供基础的参数接收和 cron 时间转换示例
-- `references/nbot-format.md`：定义摘要编号、标题、项目符号、链接和时间过滤规则
-- `references/platform-setup.md`：整理不同消息平台的配置要求与目标格式
-
-- `SKILL.md`: defines the skill purpose, inputs, message format, platform support, and workflow
-- `scripts/setup-tracker.sh`: provides basic argument handling and cron schedule conversion examples
-- `references/nbot-format.md`: documents digest numbering, titles, bullets, links, and time filtering rules
-- `references/platform-setup.md`: summarizes platform-specific configuration requirements and target formats
-
-## 流程图 / Workflow
+## 流程示意
 
 ```mermaid
 flowchart LR
-    A["nbot.ai tracker URL"] --> B["nbot-tracker.skill"]
-    B --> C["SKILL.md rules"]
-    B --> D["setup-tracker.sh helper"]
-    B --> E["format + platform references"]
-    C --> F["OpenClaw automation"]
-    D --> F
-    E --> F
-    F --> G["Scheduled digest delivery"]
-    G --> H["iMessage / Telegram / Discord / Slack"]
+    A["nbot tracker 链接"] --> B["OpenClaw"]
+    B --> C["内容读取与格式整理"]
+    C --> D["iMessage 推送"]
 ```
 
-## 如何使用 / How To Use
+## 仓库内容
 
-1. 准备一个 `nbot.ai` tracker 或 curator URL。
-2. 选择推送时间，例如 `8:00`、`7:30` 或其他周期表达。
-3. 选择目标平台和接收对象。
-4. 确保 OpenClaw 侧已经配置好对应的消息通道。
-5. 根据 `SKILL.md` 和参考文档，把这个 `.skill` 包接入你的自动化流程。
+这个仓库提供的是可直接分发的 skill 包，以及便于阅读的补充说明。
 
-1. Prepare an `nbot.ai` tracker or curator URL.
-2. Choose a delivery time such as `8:00`, `7:30`, or another schedule.
-3. Choose the target platform and recipient.
-4. Make sure the matching messaging channel is configured in OpenClaw.
-5. Use `SKILL.md` and the reference files to connect this `.skill` package into your automation flow.
+- `nbot-tracker.skill`：最终可导入、可分享的 skill 包
+- `SKILL.md`：skill 的说明文件
+- `scripts/setup-tracker.sh`：相关脚本
+- `references/nbot-format.md`：内容格式说明
+- `references/platform-setup.md`：平台配置参考
+- [docs/package-overview.md](docs/package-overview.md)：补充说明文档
 
-## 环境要求 / Requirements
+## 使用方式
 
-- 能运行 OpenClaw 自动化流程的环境
-- 可用的消息通道配置
-- 对应平台的凭证或 bot 配置
-- 支持定时任务的运行环境
+1. 将 `nbot-tracker.skill` 导入 OpenClaw
+2. 提供需要跟踪的 `nbot tracker` 链接
+3. 配置 OpenClaw 的消息通道，并确认 iMessage 可用
+4. 运行流程或设置定时任务
+5. 等待内容推送到指定的 iMessage
 
-- An environment capable of running OpenClaw automations
-- A configured messaging channel
-- Platform credentials or bot configuration where needed
-- A runtime environment that supports scheduled jobs
+## 我的工作
 
-## 当前限制 / Current Limitations
+- 明确需求：定义“tracker 内容推送到 iMessage”这个目标场景
+- 跑通流程：完成从 tracker 到消息送达的验证
+- 整理交付：把整套流程打包成可复用、可分享的 skill
 
-- 当前仓库主内容是打包产物，不是展开后的源码目录
-- `scripts/setup-tracker.sh` 当前只展示了基础参数解析和 cron 推导，不是完整部署器
-- 实际消息发送依赖 OpenClaw 和平台侧配置
-- 仓库本身不包含完整的 bot token、channel config 或运行时 secrets
+## 当前限制
 
-- The repository currently centers on a packaged artifact rather than an unpacked source tree
-- `scripts/setup-tracker.sh` currently demonstrates basic argument parsing and cron derivation rather than full deployment
-- Actual message delivery depends on OpenClaw and platform-side configuration
-- The repository does not include runtime secrets such as bot tokens or channel credentials
+- 当前验证通过的主要场景是 iMessage 推送
+- skill 的运行依赖 OpenClaw 环境和消息通道配置
+- 仓库里不包含运行时凭证或个人配置
+- 如果要扩展到其他消息通道，仍然需要在 OpenClaw 侧做相应配置
 
-## 后续可扩展方向 / Possible Next Steps
+## 补充说明
 
-- 补充一个解包后的源码镜像目录，提升可读性
-- 增加示例配置和测试用输入
-- 为不同平台增加更明确的 setup walkthrough
-- 增加一个最小可复现的 OpenClaw 集成示例
-
-- Add an unpacked source mirror for better readability
-- Include sample configurations and example inputs
-- Add clearer setup walkthroughs for each messaging platform
-- Provide a minimal OpenClaw integration example
-
-## 更多说明 / More Context
-
-更详细的仓库包装说明见 [docs/package-overview.md](docs/package-overview.md)。
-
-For more context on why the repository is organized around a packaged artifact, see [docs/package-overview.md](docs/package-overview.md).
+如果只想快速了解这个 skill 包里包含哪些文件，可以继续看 [docs/package-overview.md](docs/package-overview.md)。
 
 ## License
 
-This project is released under the MIT License.
+本项目采用 MIT License。

@@ -1,59 +1,37 @@
-# Package Overview
+# Skill 包说明
 
-## Why This Repository Is Artifact-First
+## 包内文件
 
-`nbot-tracker-openclaw` currently stores a packaged skill file, `nbot-tracker.skill`, at the repository root.
-That packaging choice makes the project portable for direct distribution, but it also means reviewers cannot immediately browse an unpacked source tree from the GitHub landing page.
-
-This document exists to make the repository easier to understand without changing the current artifact-first layout.
-
-## What The Package Contains
-
-The zip archive currently exposes the following internal paths:
+当前 `nbot-tracker.skill` 包内可以看到这些主要文件：
 
 - `SKILL.md`
 - `scripts/setup-tracker.sh`
 - `references/nbot-format.md`
 - `references/platform-setup.md`
 
-These files indicate that the package is organized around three layers:
+## 这个包的作用
 
-- a top-level skill definition
-- a small setup helper script
-- reference documents for message formatting and platform setup
+这个 skill 的目标，是把指定 `nbot tracker` 的内容交给 OpenClaw 处理，并推送到 iMessage。
 
-## What Reviewers Should Understand First
+README 里介绍的是项目层面的用途，这份文档主要补充包内结构，方便快速查看交付内容。
 
-If someone visits this repository for portfolio review, the most important things to understand are:
+## 当前已验证流程
 
-1. The repository is not empty. Its main implementation guidance is inside the `.skill` archive.
-2. The skill targets a specific automation workflow: polling `nbot.ai` updates and sending formatted digests through OpenClaw-supported messaging channels.
-3. The package includes both behavioral instructions and operational references, not just a single binary blob with no context.
+目前已经跑通的链路是：
 
-## Why Keep The `.skill` File
+1. 提供 `nbot tracker` 链接
+2. 由 OpenClaw 读取和处理内容
+3. 按预设格式输出
+4. 推送到 iMessage
 
-Keeping the packaged file at the root is still useful because:
+## 交付形式
 
-- it represents the distributable artifact
-- it preserves the actual installation unit used by the workflow
-- it keeps the repository aligned with how the skill is intended to be shared
+仓库中的主要交付物就是 `nbot-tracker.skill`。
+它适合直接导入、分享和复用，也更符合 OpenClaw 中 skill 的实际使用方式。
 
-For portfolio readability, the README now explains the package clearly instead of pretending this is a conventional source-first repository.
+## 后续可继续补充的内容
 
-## Current Tradeoff
-
-This layout favors portability over inspectability.
-
-- Advantage: one file is easy to move, archive, and reuse
-- Drawback: GitHub visitors cannot inspect the structure without extra explanation
-
-That tradeoff is acceptable for this version of the repository as long as the README and documentation explain the package honestly and precisely.
-
-## Suggested Future Upgrade
-
-If the unpacked source becomes available later, a stronger repository version would include:
-
-- an unpacked mirror of the package files
-- example configuration inputs
-- a minimal OpenClaw integration example
-- test fixtures for formatting and scheduling behavior
+- 示例输入
+- 更详细的配置说明
+- 其他消息通道的接入说明
+- 解包后的文件镜像，用于二次阅读或继续维护
