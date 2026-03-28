@@ -15,7 +15,7 @@
 1. 接收我提供的 `nbot tracker` 链接
 2. 读取 tracker 中的更新内容
 3. 按预设格式整理输出
-4. 通过 OpenClaw 推送到 iMessage
+4. 通过 OpenClaw 定时推送到 iMessage
 
 ## 当前已经跑通的场景
 
